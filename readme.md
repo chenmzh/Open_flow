@@ -15,7 +15,7 @@ Instructions on how to install and set up the project.
 
 
 # Clone the repository
-git clone https://github.com/your-username/your-repository.git
+git clone https://github.com/chenmzh/Open_flow.git
 
 # Navigate to the project directory
 cd your-repository
