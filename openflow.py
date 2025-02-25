@@ -38,7 +38,7 @@ class InteractivePolygonGating:
 
         # Create figure and axis for scatter plot
         self.fig, self.ax = plt.subplots()
-        self.ax.scatter(self.x_temp, self.y_temp, s=1, c='blue')
+        self.ax.scatter(self.x_temp, self.y_temp, s=0.1, c='blue', alpha=0.1)
 
         # If using logarithmic scale, format tick labels to show original values in scientific notation
         if self.log:
@@ -324,6 +324,44 @@ class InteractiveHistogramThreshold:
 
         self.fig_selected.canvas.draw_idle()
 
+    def apply_gate(self, new_df, threshold_channel=None):
+        """
+        Apply the current threshold gate to a new DataFrame.
+        
+        Parameters:
+        -----------
+        new_df : pandas.DataFrame
+            The new DataFrame to apply the gate to.
+        threshold_channel : str, optional
+            The column name to apply threshold on in the new DataFrame.
+            If None, uses the same channel as the original data.
+            
+        Returns:
+        --------
+        pandas.DataFrame
+            A subset of new_df containing only rows that pass the threshold gate.
+        """
+        # Use the original threshold channel if none is specified
+        if threshold_channel is None:
+            threshold_channel = self.threshold_channel
+            
+        # Validate that the threshold channel exists in the new DataFrame
+        if threshold_channel not in new_df.columns:
+            raise ValueError(f"'{threshold_channel}' not found in the new DataFrame columns.")
+        
+        # Get current threshold values
+        low = self.lower_line.get_xdata()[0]
+        high = self.upper_line.get_xdata()[0]
+        
+        # Filter the new DataFrame based on threshold values
+        filtered_df = new_df[
+            (new_df[threshold_channel] >= low) &
+            (new_df[threshold_channel] <= high)
+        ]
+        
+        print(f"Applied gate to new data. Selected {len(filtered_df)} out of {len(new_df)} items.")
+        
+        return filtered_df
 # # Example usage:
 # if __name__ == "__main__":
 #     np.random.seed(42)
