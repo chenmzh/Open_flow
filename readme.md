@@ -21,7 +21,7 @@ git clone https://github.com/chenmzh/Open_flow.git
 cd your-repository
 
 # Install dependencies
-conda env create -f environment.yaml
+conda env create -f environment.yml
 
 activate sci
 
