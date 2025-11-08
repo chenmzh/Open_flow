@@ -41,6 +41,9 @@ class InteractivePolygonGating:
         # Create figure and axis for scatter plot
         self.fig, self.ax = plt.subplots()
         self.ax.scatter(self.x_temp, self.y_temp, s=0.1, c='blue', alpha=0.1)
+        # Set the axis labels
+        self.ax.set_xlabel(self.x_col)
+        self.ax.set_ylabel(self.y_col)
 
         # If using logarithmic scale, format tick labels to show original values in scientific notation
         if self.log:
@@ -93,6 +96,8 @@ class InteractivePolygonGating:
         self.fig.canvas.mpl_connect('button_release_event', self.on_release)
         self.fig.canvas.mpl_connect('motion_notify_event', self.on_motion)
 
+        self.fig.tight_layout()
+        self.fig.canvas.draw_idle()
         plt.show(block=False)
     
     def setup_histograms(self):
